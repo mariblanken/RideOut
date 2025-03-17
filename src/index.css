@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .glass-dark {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+@layer base {
+  input[type="date"],
+  input[type="time"],
+  input[type="text"],
+  input[type="number"],
+  textarea {
+    @apply bg-white/80 border-0 rounded-xl px-4 py-3 shadow-sm backdrop-blur-sm;
+  }
+}
+
+@keyframes slowZoom {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-zoom-bg {
+  animation: slowZoom 20s infinite ease-in-out;
+}
