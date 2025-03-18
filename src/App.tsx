@@ -260,14 +260,14 @@ function App() {
       <Toaster position="top-right" />
       
       <div className="max-w-4xl mx-auto">
-        <header className="flex items-center justify-between mb-8 relative">
+        <header className="flex flex-col sm:flex-row items-center justify-between mb-8 relative gap-4">
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-2xl bg-indigo-500/20 backdrop-blur-sm">
               <Bike className="w-8 h-8 text-indigo-400" />
             </div>
             <h1 className="text-2xl font-bold">'t Zondagse fietsclubje</h1>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
             {selectedRide || showStats ? (
               <button
                 onClick={() => {
@@ -283,14 +283,14 @@ function App() {
               <>
               <button
                 onClick={() => setShowStats(true)}
-                className="px-6 py-3 bg-indigo-500/20 hover:bg-indigo-500/30 rounded-xl backdrop-blur-sm border border-indigo-500/20 transition-all duration-300 flex items-center gap-2"
+                className="px-6 py-3 bg-indigo-500/20 hover:bg-indigo-500/30 rounded-xl backdrop-blur-sm border border-indigo-500/20 transition-all duration-300 flex items-center gap-2 flex-1 sm:flex-none justify-center"
               >
                 <ChartBar className="w-5 h-5" />
                 <span>Statistieken</span>
               </button>
             <button
               onClick={() => setIsCreating(!isCreating)}
-              className="px-6 py-3 bg-indigo-500/20 hover:bg-indigo-500/30 rounded-xl backdrop-blur-sm border border-indigo-500/20 transition-all duration-300"
+              className="px-6 py-3 bg-indigo-500/20 hover:bg-indigo-500/30 rounded-xl backdrop-blur-sm border border-indigo-500/20 transition-all duration-300 flex-1 sm:flex-none"
             >
               {isCreating ? 'Annuleren' : 'Rit Aanmaken'}
             </button>
@@ -408,14 +408,21 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {rides
               .filter(ride => ride.date >= new Date().toISOString().split('T')[0])
-              .map((ride) => (
-              <RidePreviewCard
-                key={ride.id}
-                ride={ride}
-                weather={weather[ride.id]}
-                onClick={() => setSelectedRide(ride.id)}
-              />
-            ))}
+              .map((ride) => {
+                const organizer = riders.find(r => r.id === ride.rider_id) || {
+                  id: ride.rider_id,
+                  name: 'Onbekend',
+                  created_at: new Date().toISOString()
+                };
+                return (
+                  <RidePreviewCard
+                    key={ride.id}
+                    ride={{ ...ride, organizer }}
+                    weather={weather[ride.id]}
+                    onClick={() => setSelectedRide(ride.id)}
+                  />
+                );
+              })}
 
             {rides.length === 0 && (
               <div className="text-center py-12 text-white/60 md:col-span-2">
