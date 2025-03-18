@@ -2,11 +2,14 @@ import React from 'react';
 import { Bike, Calendar, Clock, Users } from 'lucide-react';
 import { format } from 'date-fns';
 import { nl } from 'date-fns/locale';
-import type { Ride, Participant } from '../lib/supabase';
+import type { Ride, Participant, Rider } from '../lib/supabase';
 import type { WeatherData } from '../lib/weather';
 
 type RidePreviewCardProps = {
-  ride: Ride & { participants: Participant[] };
+  ride: Ride & { 
+    participants: Participant[];
+    organizer: Rider;
+  };
   weather?: WeatherData;
   onClick: () => void;
 };
@@ -47,7 +50,7 @@ export function RidePreviewCard({ ride, weather, onClick }: RidePreviewCardProps
             <div className="p-2 rounded-lg bg-violet-500/30 backdrop-blur-md">
               <Users className="w-4 h-4 text-violet-500" />
             </div>
-            <span>{ride.participants.find(p => p.riders?.id === ride.rider_id)?.riders?.name}</span>
+            <span>{ride.organizer?.name}</span>
           </div>
 
           <div className="flex items-center gap-3 text-white">

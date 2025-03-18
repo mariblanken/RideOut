@@ -91,7 +91,8 @@ function App() {
       .from('rides')
       .select(`
         *,
-        participants!inner (
+        organizer:riders!rides_rider_id_fkey(*),
+        participants (
           *,
           riders (*)
         )
