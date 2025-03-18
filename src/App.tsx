@@ -91,11 +91,12 @@ function App() {
       .from('rides')
       .select(`
         *,
-        participants (
+        participants!inner (
           *,
           riders (*)
         )
-      `);
+      `)
+      .order('date', { ascending: true });
 
     if (error) {
       console.error('Failed to load rides:', {
@@ -118,6 +119,17 @@ function App() {
     }
 
     setRides(rides);
+    
+    // Load weather data for each ride
+    for (const ride of rides) {
+      const forecast = await getWeatherForecast(ride.date, ride.time);
+      if (forecast) {
+        setWeather(prev => ({
+          ...prev,
+          [ride.id]: forecast
+        }));
+      }
+    }
   }
 
   const selectedRideData = selectedRide ? rides.find(r => r.id === selectedRide) : null;

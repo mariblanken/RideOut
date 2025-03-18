@@ -47,7 +47,7 @@ export function RidePreviewCard({ ride, weather, onClick }: RidePreviewCardProps
             <div className="p-2 rounded-lg bg-violet-500/30 backdrop-blur-md">
               <Users className="w-4 h-4 text-violet-500" />
             </div>
-            <span>{ride.participants.find(p => p.rider_id === ride.rider_id)?.riders.name}</span>
+            <span>{ride.participants.find(p => p.riders?.id === ride.rider_id)?.riders?.name}</span>
           </div>
 
           <div className="flex items-center gap-3 text-white">
